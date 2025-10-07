@@ -130,4 +130,100 @@ router.put('/:id', eventoController.updateEventoHandler);
  */
 router.delete('/:id', eventoController.deleteEventoHandler);
 
+/**
+ * 
+@swagger
+ * /event/{eventoId}/apuntar/{usuarioId}:
+ *   post:
+ *     summary: Añade un usuario a la lista de apuntados de un evento
+ *     tags: [Eventos - Apuntados]
+ *     parameters:
+ *       - in: path
+ *         name: eventoId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del evento
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario
+ *     responses:
+ *       200:
+ *         description: Usuario añadido correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     eventoId:
+ *                       type: string
+ *                     titulo:
+ *                       type: string
+ *                     numeroApuntados:
+ *                       type: number
+ *                     capacidadMaxima:
+ *                       type: number
+ *       400:
+ *         description: Error - Usuario ya apuntado o capacidad máxima alcanzada
+ */
+router.post('/:eventoId/apuntar/:usuarioId', eventoController.añadirUsuarioApuntadoHandler);
+
+/**
+ * @swagger
+ * /event/{eventoId}/desapuntar/{usuarioId}:
+ *   delete:
+ *     summary: Quita un usuario de la lista de apuntados de un evento
+ *     tags: [Eventos - Apuntados]
+ *     parameters:
+ *       - in: path
+ *         name: eventoId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del evento
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     eventoId:
+ *                       type: string
+ *                     titulo:
+ *                       type: string
+ *                     numeroApuntados:
+ *                       type: number
+ *                     capacidadMaxima:
+ *                       type: number
+ *       400:
+ *         description: Error - Usuario no está apuntado
+ */
+router.delete('/:eventoId/desapuntar/:usuarioId', eventoController.quitarUsuarioApuntadoHandler);
+
+
 export default router;

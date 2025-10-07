@@ -4,7 +4,10 @@ import {
   getAllEventos,
   getEventoById,
   updateEvento,
-  deleteEvento
+  deleteEvento,
+  añadirUsuarioApuntado,
+  quitarUsuarioApuntado
+  
 } from '../services/eventoServices';
 
 export const createEventoHandler = async (req: Request, res: Response) => {
@@ -15,6 +18,48 @@ export const createEventoHandler = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const añadirUsuarioApuntadoHandler = async (req: Request, res: Response) => {
+  try {
+    const { eventoId, usuarioId } = req.params;
+    const evento = await añadirUsuarioApuntado(eventoId, usuarioId);
+    
+    res.status(200).json({
+      success: true,
+      message: 'Usuario añadido al evento correctamente',
+      data: {
+        eventoId: evento._id,
+        usuarioId: usuarioId,
+        titulo: evento.name,
+        numeroApuntados: evento.apuntados.length,
+        capacidadMaxima: evento.capacidadMaxima
+      }
+    });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const quitarUsuarioApuntadoHandler = async (req: Request, res: Response) => {
+  try {
+    const { eventoId, usuarioId } = req.params;
+    const evento = await quitarUsuarioApuntado(eventoId, usuarioId);
+    
+    res.status(200).json({
+      success: true,
+      message: 'Usuario eliminado del evento correctamente',
+      data: {
+        eventoId: evento._id,
+        titulo: evento.name,
+        numeroApuntados: evento.apuntados.length,
+        capacidadMaxima: evento.capacidadMaxima
+      }
+    });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 
 export const getAlleventoHandler = async (_req: Request, res: Response) => {
   try {
